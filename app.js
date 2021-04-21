@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require('mongoose');
 var cors = require('cors');
 require('dotenv').config();
 const app = express();
@@ -10,12 +11,15 @@ app.use(function (req, res, next) {
     next();
 });
 
+const uri = process.env.URI;
+
+mongoose.connect(uri,{ useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log(`Database Connected.`));
+
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () =>
   console.log(`Server up on port ${PORT}...`)
 );
-
-
 
 app.get("/", async (req, res) => {
     res.status(200).send("Working Fine");
